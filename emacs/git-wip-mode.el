@@ -5,14 +5,13 @@
 
 (defun git-wip-after-save ()
   (interactive)
-  (when (string= (vc-backend (buffer-file-name)) "Git")
+  (when (string= (vc-backend (buffer-file-name)) "GIT")
     (start-process "git-wip" "*git-wip*"
-                   "git-wip" "save" (concat "WIP from emacs: "
-                                            (file-name-nondirectory
-                                            buffer-file-name))
+                   "git" "wip" "save" (concat "WIP from emacs: "
+                                              (file-name-nondirectory
+                                               buffer-file-name))
                    "--editor" "--"
-                   (file-name-nondirectory buffer-file-name))
-    (message (concat "Wrote and git-wip'd " (buffer-file-name)))))
+                   (file-name-nondirectory buffer-file-name))))
 
 (define-minor-mode git-wip-mode
   "Toggle git-wip mode.
@@ -35,7 +34,7 @@ you save a buffer."
 
 (defun git-wip-mode-if-git ()
   (interactive)
-  (when (string= (vc-backend (buffer-file-name)) "Git")
+  (when (string= (vc-backend (buffer-file-name)) "GIT")
     (git-wip-mode t)))
 
 (add-hook 'find-file-hook 'git-wip-mode-if-git)
